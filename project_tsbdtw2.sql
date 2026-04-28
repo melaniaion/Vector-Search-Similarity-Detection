@@ -29,7 +29,7 @@ BEGIN
 END;
 /
 
---ÎNCARCAREA FISIERULUI BINAR (DOCX) IN TABEL
+--ÃŽNCARCAREA FISIERULUI BINAR (DOCX) IN TABEL
 DECLARE
     v_blob  BLOB;
     v_bfile BFILE := BFILENAME('DOC_DIR', 'test.docx');
@@ -154,6 +154,43 @@ WHERE a.nume_fisier = 'nume_fisier.docx'
 ORDER BY scor
 FETCH FIRST 5 ROWS ONLY;
 /
+
+-- QUERY 3 - COMPARARE INTRE DOUA DOCUMENTE ANUME
+SELECT 
+    VECTOR_DISTANCE(
+        a.embedding_vector,
+        b.embedding_vector,
+        COSINE
+    ) AS scor,
+
+    CASE
+        WHEN VECTOR_DISTANCE(a.embedding_vector,b.embedding_vector,COSINE) = 0
+             THEN 'Identice semantic'
+
+        WHEN VECTOR_DISTANCE(a.embedding_vector,b.embedding_vector,COSINE) < 0.03
+             THEN 'Aproape identice'
+
+        WHEN VECTOR_DISTANCE(a.embedding_vector,b.embedding_vector,COSINE) < 0.10
+             THEN 'Foarte similare'
+
+        WHEN VECTOR_DISTANCE(a.embedding_vector,b.embedding_vector,COSINE) < 0.18
+             THEN 'Similare'
+
+        WHEN VECTOR_DISTANCE(a.embedding_vector,b.embedding_vector,COSINE) < 0.28
+             THEN 'Slab similare'
+
+        WHEN VECTOR_DISTANCE(a.embedding_vector,b.embedding_vector,COSINE) < 0.40
+             THEN 'Diferite'
+
+        ELSE 'Foarte diferite'
+    END AS interpretare
+
+FROM documente_word a
+JOIN documente_word b
+ON a.id <> b.id
+WHERE a.nume_fisier = 'Penguins_Main.docx'
+AND b.nume_fisier = 'Penguins_Copy.docx';
+
 
 
 
