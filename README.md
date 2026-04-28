@@ -183,7 +183,6 @@ The system was tested with several documents: an original file, an exact copy, a
 2. Copy the ONNX model and `.docx` files into the container using `docker cp`.
 3. Load the model with `DBMS_VECTOR.LOAD_ONNX_MODEL`.
 4. Run the SQL steps in order: create table → load files → extract text → generate vectors → query.
-Screenshots of the query results are included in the `/screenshots` folder.
  
 ---
  
@@ -191,4 +190,3 @@ Screenshots of the query results are included in the `/screenshots` folder.
  
 - [Oracle AI Vector Search Docs](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/)
 - [Oracle Database 23ai Free](https://www.oracle.com/database/free/get-started/)
-- [all-MiniLM-L6-v2 on Hugging Face](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
